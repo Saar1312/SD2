@@ -1,9 +1,16 @@
 package ttt;
 
+// 
+import java.rmi.server.UnicastRemoteObject;
+import java.rmi.*;
+
+
 /**
  * TTT - Tic Tac Toe.
  */
-public class TTT {
+public class TTT extends UnicastRemoteObject implements TTTService {
+
+	public TTT() throws RemoteException {}
 
 	/** The Game Board */
 	private char board[][] = {
@@ -17,7 +24,7 @@ public class TTT {
 	private int numPlays = 0;
 
 	/** Return a textual representation of the current game board. */
-	public String currentBoard() {
+	public String currentBoard() throws RemoteException {
 		StringBuilder sb = new StringBuilder();
 		sb.append("\n\n ");
 
@@ -41,7 +48,7 @@ public class TTT {
 	}
 
 	/** Make a game play on behalf of provided player. */
-	public boolean play(int row, int column, int player) {
+	public boolean play(int row, int column, int player) throws RemoteException {
 		// outside board ?
 		if (!(row >= 0 && row < 3 && column >= 0 && column < 3))
 			return false;
@@ -73,7 +80,7 @@ public class TTT {
 	 * of the object is acquired when the method is called and released on
 	 * return.
 	 */
-	public synchronized int checkWinner() {
+	public synchronized int checkWinner() throws RemoteException{
 		int i;
 
 		/* Check for a winning line - diagonals first */
